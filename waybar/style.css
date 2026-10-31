@@ -1,0 +1,108 @@
+/* =============================================================================
+ * Color Palette Variables (Tokyo Night Hex Codes)
+ * ========================================================================== */
+@define-color bg #1a1b26;
+@define-color bg-alt #24283b;
+@define-color fg #c0caf5;
+@define-color fg-alt #565f89;
+@define-color blue #7aa2f7;
+@define-color cyan #7dcfff;
+@define-color green #9ece6a;
+@define-color magenta #bb9af7;
+@define-color red #f7768e;
+@define-color orange #ff9e64;
+
+/* =============================================================================
+ * Core Layout Style Rules
+ * ========================================================================== */
+* {
+    font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NF", monospace;
+    font-size: 13px;
+    font-weight: bold;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+}
+
+/* Outer padding matching 2x Sway gap value (20px) */
+.modules-left {
+    padding-left: 20px;
+}
+
+.modules-right {
+    padding-right: 20px;
+}
+
+#workspaces {
+    padding: 0;
+    margin: 0;
+}
+
+/* Module spacing to prevent bleeding together */
+#custom-timewarrior, #cpu, #memory, #pulseaudio, #bluetooth, #network, #battery, #bat0, #bat1, .battery {
+    padding: 0 8px;
+    margin: 0 2px;
+}
+
+#clock {
+    padding: 0 8px;
+    margin: 0;
+}
+
+/* =============================================================================
+ * Workspace Buttons (Active Underline Style)
+ * ========================================================================== */
+#workspaces button {
+    color: @fg;
+    padding: 0 10px;
+    background: transparent;
+    border-bottom: 2px solid transparent;
+}
+
+#workspaces button.focused {
+    background-color: @bg-alt;
+    border-bottom: 2px solid @blue;
+}
+
+#workspaces button.urgent {
+    background-color: @red;
+    color: @bg;
+}
+
+/* =============================================================================
+ * Module Text Accent Highlights
+ * ========================================================================== */
+#custom-timewarrior { color: @cyan; }
+#cpu { color: @fg; }
+#memory { color: @fg; }
+#pulseaudio { color: @blue; }
+#pulseaudio.muted { color: @red; }
+#bluetooth { color: @blue; }
+#bluetooth.disconnected, #bluetooth.off, #bluetooth.disabled { color: @red; }
+#bluetooth.connected { color: @cyan; }
+#network { color: @blue; }
+#network.disconnected, #network.disabled { color: @red; }
+#battery, #bat0, #bat1, .battery { color: @green; }
+#battery.charging, #bat0.charging, #bat1.charging, .battery.charging { color: @green; }
+#battery.discharging, #bat0.discharging, #bat1.discharging, .battery.discharging { color: @orange; }
+#battery.warning, #bat0.warning, #bat1.warning, .battery.warning { color: @orange; }
+#battery.critical, #bat0.critical, #bat1.critical, .battery.critical { color: @red; }
+#clock { color: @orange; }
+
+/* =============================================================================
+ * Tooltip Styling (Tokyo Night)
+ * ========================================================================== */
+tooltip {
+    background-color: @bg-alt;
+    border: 1px solid @blue;
+    border-radius: 6px;
+}
+
+tooltip label {
+    color: @fg;
+    padding: 6px 10px;
+}

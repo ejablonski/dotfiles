@@ -1,0 +1,34 @@
+# ==============================================================================
+# Zathura Configuration
+# ==============================================================================
+
+# Clipboard Integration (syncs selections with system clipboard)
+set selection-clipboard "clipboard"
+
+# Typography
+set font "JetBrainsMono Nerd Font 10"
+
+# Status Bar (Tokyo Night)
+set statusbar-bg "#1a1b26"
+set statusbar-fg "#c0caf5"
+set statusbar-h-padding 8
+set statusbar-v-padding 4
+set statusbar-home-tilde true
+
+# Input & Search Bar
+set inputbar-bg "#1a1b26"
+set inputbar-fg "#c0caf5"
+
+# Notifications
+set notification-bg "#1a1b26"
+set notification-fg "#c0caf5"
+set notification-error-bg "#1a1b26"
+set notification-error-fg "#f7768e"
+set notification-warning-bg "#1a1b26"
+set notification-warning-fg "#ff9e64"
+
+# Completion & Index
+set completion-bg "#24283b"
+set completion-fg "#c0caf5"
+set completion-highlight-bg "#283457"
+set completion-highlight-fg "#7dcfff"
