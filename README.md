@@ -19,11 +19,13 @@ The configurations in this repository depend on the following applications, cate
 
 ```bash
 sudo pacman -Syu sway waybar rofi swaybg swaylock swayidle swaynag wl-clipboard cliphist grim slurp brightnessctl playerctl pavucontrol xdg-desktop-portal-wlr xfce4-settings
+pamac install swaysome
 ```
 
 | Application / Package | Purpose |
 | :--- | :--- |
 | `sway` | Tiling Wayland compositor compatible with i3 syntax. |
+| `swaysome` (AUR) | Multi-monitor workspace groups manager (AwesomeWM-style per-monitor workspaces). |
 | `waybar` | Highly customizable GTK top status bar for Sway. |
 | `rofi` | Application launcher, favorites menu, and power menu (`$mod+d`). |
 | `swaybg` | Wallpaper rendering daemon on Wayland. |
@@ -117,10 +119,14 @@ sudo pacman -Syu ttf-jetbrains-mono-nerd
 
 To install all packages for both Sway and i3 environments at once:
 ```bash
+# Official Repositories
 sudo pacman -Syu \
   sway waybar rofi swaybg swaylock swayidle swaynag wl-clipboard cliphist grim slurp brightnessctl playerctl pavucontrol xdg-desktop-portal-wlr \
   i3-wm polybar feh i3lock xss-lock dex network-manager-applet pulseaudio xorg-xrandr bluez-utils \
   neovim ripgrep fd fzf clang cmake make gcc \
   kitty lazygit yazi timewarrior zathura zathura-pdf-mupdf starship \
   ttf-jetbrains-mono-nerd xfce4-settings
+
+# AUR Packages
+pamac install swaysome
 ```

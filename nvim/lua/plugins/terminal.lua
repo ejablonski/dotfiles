@@ -1,3 +1,11 @@
+-- Global toggle function accessible before toggleterm is loaded (e.g. from alpha dashboard)
+_G.toggle_lazygit = function()
+  require("lazy").load({ plugins = { "toggleterm.nvim" } })
+  if _G._toggle_lazygit_impl then
+    _G._toggle_lazygit_impl()
+  end
+end
+
 return {
   "akinsho/toggleterm.nvim",
   version = "*",
@@ -50,30 +58,55 @@ return {
       vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], keymap_opts)
     end
 
+    -- Only bind terminal navigation keymaps for regular shell toggleterms
+    -- This prevents hijacking <esc>, <C-h>, <C-j>, <C-k>, <C-l> inside Lazygit
     vim.api.nvim_create_autocmd("TermOpen", {
-      pattern = "term://*",
+      pattern = "term://*toggleterm#*",
       callback = function()
         set_terminal_keymaps()
       end,
     })
 
-    -- Lazygit floating terminal
+    -- Lazygit floating terminal (singleton instance)
     local lazygit = Terminal:new({
       cmd = "lazygit",
       dir = "git_dir",
       direction = "float",
+      hidden = true,
+      close_on_exit = true,
       float_opts = {
         border = "single",
+        width = function()
+          return math.floor(vim.o.columns * 0.9)
+        end,
+        height = function()
+          return math.floor(vim.o.lines * 0.9)
+        end,
       },
       on_open = function(term)
         vim.cmd("startinsert!")
         vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
       end,
+      on_close = function()
+        vim.cmd("checktime")
+        pcall(function()
+          require("gitsigns").refresh()
+        end)
+      end,
     })
 
     local function toggle_lazygit()
+      local git_dir = vim.fs.root(0, ".git")
+      if not git_dir then
+        vim.notify("Not inside a Git repository", vim.log.levels.WARN, { title = "Lazygit" })
+        return
+      end
+      lazygit.dir = git_dir
       lazygit:toggle()
     end
+
+    _G._toggle_lazygit_impl = toggle_lazygit
+    _G.toggle_lazygit = toggle_lazygit
 
     vim.keymap.set("n", "<leader>gg", toggle_lazygit, { desc = "Toggle Lazygit" })
 

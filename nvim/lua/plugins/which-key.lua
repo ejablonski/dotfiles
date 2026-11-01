@@ -6,6 +6,14 @@ return {
     win = {
       border = "single",
     },
+    spec = {
+      { "<leader>b", group = "Buffer" },
+      { "<leader>c", group = "Code / LSP" },
+      { "<leader>f", group = "Find / FZF" },
+      { "<leader>g", group = "Git" },
+      { "<leader>h", group = "Git Hunk" },
+      { "<leader>t", group = "Terminal" },
+    },
   },
   keys = {
     {

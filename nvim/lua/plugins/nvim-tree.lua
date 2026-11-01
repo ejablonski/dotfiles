@@ -7,6 +7,10 @@ return {
   opts = {
     disable_netrw = true,
     hijack_netrw = true,
+    hijack_directories = {
+      enable = false,
+      auto_open = false,
+    },
     sync_root_with_cwd = true,
     respect_buf_cwd = true,
     view = {
