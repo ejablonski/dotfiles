@@ -252,23 +252,44 @@ bar {
 # ==============================================================================
 # Window Borders & Visual Styles
 # ==============================================================================
-# 1. Turn off title bars but enable a clean 2-pixel outline border
-default_border pixel 2
-default_floating_border pixel 2
+# 1. Turn off title bars for regular splits but enable a clean 1-pixel outline border
+default_border pixel 1
+default_floating_border pixel 1
 
 # 2. Apply this outline style globally to all native and legacy apps
-for_window [app_id=".*"] border pixel 2
-for_window [class=".*"] border pixel 2
-for_window [shell="xwayland"] border pixel 2
+for_window [app_id=".*"] border pixel 1
+for_window [class=".*"] border pixel 1
+for_window [shell="xwayland"] border pixel 1
 
-# 3. Custom Focus Colors (Tokyo Night)
-# Structure:            class                   border  bg      text    indicator child_border
-client.focused          #7aa2f7 #1a1b26 #c0caf5 #7dcfff   #7aa2f7
-client.focused_inactive #24283b #1a1b26 #565f89 #24283b   #24283b
-client.unfocused        #1a1b26 #1a1b26 #565f89 #1a1b26   #1a1b26
-client.urgent           #f7768e #f7768e #1a1b26 #f7768e   #f7768e
+# 3. Application Icons in Tab & Window Titles
+# Default Kitty terminal icon (shell prompt)
+for_window [app_id="kitty"]                            title_format "󰞷  %title"
 
-# 4. Explicit Gap spacing
+# CLI applications inside Kitty (detected via running command title)
+for_window [app_id="kitty" title="(?i).*(nvim|vim).*"] title_format "  %title"
+for_window [app_id="kitty" title="(?i).*lazygit.*"]    title_format "󰊢  %title"
+for_window [app_id="kitty" title="(?i).*yazi.*"]       title_format "󰇥  %title"
+for_window [app_id="kitty" title="(?i).*timew.*"]      title_format "󱎫  %title"
+for_window [app_id="kitty" title="(?i).*agy.*"]        title_format "󰚩  %title"
+
+# GUI Applications
+for_window [app_id="org.pwmt.zathura"]                 title_format "  %title"
+for_window [app_id="google-chrome"]                    title_format "  %title"
+for_window [class="(?i)google-chrome"]                 title_format "  %title"
+
+# 4. Tabbed & Stacked Titlebar Styling (Compact & Centered)
+title_align center
+titlebar_border_thickness 1
+titlebar_padding 8 2
+
+# 5. Custom Focus & Tab Colors with Transparency (Tokyo Night #RRGGBBAA)
+# Structure:            class                   border    bg          text      indicator child_border
+client.focused          #7aa2f7 #283457d0 #c0caf5   #7dcfff   #7aa2f7
+client.focused_inactive #24283b #1f2335b0 #737aa2   #24283b   #24283b
+client.unfocused        #1a1b26 #16161eb0 #565f89   #1a1b26   #1a1b26
+client.urgent           #f7768e #f7768ecc #1a1b26   #f7768e   #f7768e
+
+# 6. Explicit Gap spacing
 gaps inner 10
 gaps outer 10
 

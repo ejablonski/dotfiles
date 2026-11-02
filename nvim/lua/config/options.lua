@@ -23,6 +23,10 @@ opt.signcolumn = "yes"
 opt.cursorline = true
 opt.wrap = false
 
+-- Window title (updates terminal title with active file for Sway tabs)
+opt.title = true
+opt.titlestring = "nvim %t"
+
 -- Scrolling
 opt.scrolloff = 8
 opt.sidescrolloff = 8

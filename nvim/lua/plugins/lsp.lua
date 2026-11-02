@@ -107,6 +107,7 @@ return {
           "--completion-style=detailed",
           "--function-arg-placeholders",
           "--fallback-style=llvm",
+          "--query-driver=**/*-g++,**/*-gcc,**/*-clang*",
         },
         capabilities = capabilities,
         init_options = {
