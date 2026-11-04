@@ -276,6 +276,10 @@ for_window [app_id="kitty" title="(?i).*agy.*"]        title_format "󰚩  %titl
 for_window [app_id="org.pwmt.zathura"]                 title_format "  %title"
 for_window [app_id="google-chrome"]                    title_format "  %title"
 for_window [class="(?i)google-chrome"]                 title_format "  %title"
+for_window [app_id="(?i)steam"]                        title_format "󰓓  %title"
+for_window [class="(?i)steam"]                         title_format "󰓓  %title"
+for_window [app_id="(?i)kicad"]                        title_format "󱘖  %title"
+for_window [class="(?i)kicad"]                         title_format "󱘖  %title"
 
 # 4. Tabbed & Stacked Titlebar Styling (Compact & Centered)
 title_align center
