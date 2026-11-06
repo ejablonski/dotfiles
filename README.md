@@ -9,6 +9,11 @@ Symlink all configuration directories to your `$HOME/.config`:
 ./install.sh
 ```
 
+Configure Endorfy Thock wireless keyboard (sets `hid_apple fnmode=2` so `F1`–`F12` work as standard function keys by default):
+```bash
+./setup_thock_keyboard.sh
+```
+
 ---
 
 ## Required & Recommended Software
