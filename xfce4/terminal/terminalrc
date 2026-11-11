@@ -1,0 +1,31 @@
+[Configuration]
+FontName=JetBrainsMono Nerd Font 13
+FontUseSystem=FALSE
+
+# Tokyo Night Color Scheme
+ColorBackground=#1a1b26
+ColorForeground=#c0caf5
+ColorCursor=#c0caf5
+ColorCursorForeground=#1a1b26
+ColorBold=#c0caf5
+ColorBoldIsModifier=FALSE
+ColorSelection=#283457
+ColorSelectionUseBackground=FALSE
+TabActivityColor=#7aa2f7
+
+# 16-color ANSI Palette (Tokyo Night: Normal 0-7; Bright 8-15)
+ColorPalette=#15161e;#f7768e;#9ece6a;#e0af68;#7aa2f7;#bb9af7;#7dcfff;#a9b1d6;#414868;#ff899d;#9fe044;#faba4a;#8db0ff;#c7a9ff;#a4daff;#c0caf5
+
+# Minimal UI Styling (match Kitty aesthetics)
+MiscAlwaysShowTabs=FALSE
+MiscBell=FALSE
+MiscBordersDefault=TRUE
+MiscCursorBlinks=TRUE
+MiscCursorShape=TERMINAL_CURSOR_SHAPE_IBEAM
+MiscDefaultGeometry=100x30
+MiscInheritGeometry=FALSE
+MiscMenubarDefault=FALSE
+MiscToolbarDefault=FALSE
+MiscConfirmClose=FALSE
+MiscMouseAutohide=TRUE
+ScrollingBar=TERMINAL_SCROLLBAR_NONE
