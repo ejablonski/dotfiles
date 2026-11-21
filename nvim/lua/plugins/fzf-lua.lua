@@ -19,5 +19,21 @@ return {
     fzf_opts = {
       ["--no-scrollbar"] = true,
     },
+    files = {
+      fzf_opts = {
+        -- Disable --scheme=path because its implicit --tiebreak=pathname,length
+        -- penalizes root-level files (no "/" after devicon prefix) below nested paths.
+        ["--scheme"] = false,
+        ["--tiebreak"] = "length,pathname",
+      },
+    },
+    git = {
+      files = {
+        fzf_opts = {
+          ["--scheme"] = false,
+          ["--tiebreak"] = "length,pathname",
+        },
+      },
+    },
   },
 }
