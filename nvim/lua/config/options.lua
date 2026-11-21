@@ -37,6 +37,19 @@ opt.splitbelow = true
 
 -- Clipboard & History
 opt.clipboard = "unnamedplus"
+if vim.env.SSH_CONNECTION and not vim.env.DISPLAY and not vim.env.WAYLAND_DISPLAY then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+    },
+  }
+end
 opt.undofile = true
 opt.updatetime = 250
 opt.timeoutlen = 300

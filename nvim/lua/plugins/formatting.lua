@@ -12,15 +12,22 @@ return {
       desc = "Format file (clang-format)",
     },
   },
-  opts = {
-    formatters_by_ft = {
-      c = { "clang-format" },
-      cpp = { "clang-format" },
-      cmake = { "gersemi" },
-    },
-    format_on_save = {
-      timeout_ms = 1000,
-      lsp_fallback = true,
-    },
-  },
+  opts = function()
+    local formatters_by_ft = {}
+    if vim.fn.executable("clang-format") == 1 then
+      formatters_by_ft.c = { "clang-format" }
+      formatters_by_ft.cpp = { "clang-format" }
+    end
+    if vim.fn.executable("gersemi") == 1 then
+      formatters_by_ft.cmake = { "gersemi" }
+    end
+
+    return {
+      formatters_by_ft = formatters_by_ft,
+      format_on_save = {
+        timeout_ms = 1000,
+        lsp_fallback = true,
+      },
+    }
+  end,
 }

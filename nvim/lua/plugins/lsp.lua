@@ -2,10 +2,8 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
-    cmd = { "Mason", "MasonInstall", "MasonLog", "MasonUpdate", "LspInfo" },
+    cmd = { "LspInfo" },
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
       {
         "ray-x/lsp_signature.nvim",
@@ -21,25 +19,6 @@ return {
       },
     },
     config = function()
-      require("mason").setup({
-        ui = {
-          border = "single",
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗",
-          },
-        },
-      })
-
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "clangd",
-          "neocmake",
-        },
-        automatic_installation = true,
-      })
-
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       local cmp_lsp = require("cmp_nvim_lsp")
       capabilities = cmp_lsp.default_capabilities(capabilities)
@@ -97,32 +76,36 @@ return {
         end,
       })
 
-      -- Clangd (C and C++)
-      vim.lsp.config("clangd", {
-        cmd = {
-          "clangd",
-          "--background-index",
-          "--clang-tidy",
-          "--header-insertion=iwyu",
-          "--completion-style=detailed",
-          "--function-arg-placeholders",
-          "--fallback-style=llvm",
-          "--query-driver=**/*-g++,**/*-gcc,**/*-clang*",
-        },
-        capabilities = capabilities,
-        init_options = {
-          usePlaceholders = true,
-          completeUnimported = true,
-          clangdFileStatus = true,
-        },
-      })
-      vim.lsp.enable("clangd")
+      -- Clangd (C and C++) — uses system clangd from $PATH
+      if vim.fn.executable("clangd") == 1 then
+        vim.lsp.config("clangd", {
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+            "--query-driver=**/*-g++,**/*-gcc,**/*-clang*",
+          },
+          capabilities = capabilities,
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+          },
+        })
+        vim.lsp.enable("clangd")
+      end
 
-      -- CMake
-      vim.lsp.config("neocmake", {
-        capabilities = capabilities,
-      })
-      vim.lsp.enable("neocmake")
+      -- CMake — uses system neocmakelsp from $PATH when installed
+      if vim.fn.executable("neocmakelsp") == 1 then
+        vim.lsp.config("neocmake", {
+          capabilities = capabilities,
+        })
+        vim.lsp.enable("neocmake")
+      end
     end,
   },
 }

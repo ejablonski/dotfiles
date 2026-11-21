@@ -1,15 +1,30 @@
 # Dotfiles
 
-Personal Linux configuration files managed via symlinks to `~/.config`.
+Personal Linux & Termux configuration files managed via symlinks to `~/.config`.
+
+Supports three environments from a single repository:
+- **Laptop (Lenovo T480 — Manjaro + Sway):** Full desktop + C++ dev environment
+- **Server (Manjaro — i3 / VNC / SSH):** Minimal i3 + C++ dev environment
+- **Phone (Termux + Termux:X11 — i3):** Minimal i3 + C++ dev environment
+
+---
 
 ## Installation
 
-Symlink all configuration directories to your `$HOME/.config`:
+Run the install script for your target environment:
+
 ```bash
-./install.sh
+# Main laptop (T480, Sway + full suite)
+./install_laptop.sh
+
+# Manjaro server (minimal i3 + C++ dev tools)
+./install_server.sh
+
+# Smartphone (Termux + Termux:X11, minimal i3 + C++ dev tools)
+./install_termux.sh
 ```
 
-Configure Endorfy Thock wireless keyboard (sets `hid_apple fnmode=2` so `F1`–`F12` work as standard function keys by default):
+Configure Endorfy Thock wireless keyboard on laptop (sets `hid_apple fnmode=2` so `F1`–`F12` work as standard function keys by default):
 ```bash
 ./setup_thock_keyboard.sh
 ```
@@ -18,12 +33,16 @@ Configure Endorfy Thock wireless keyboard (sets `hid_apple fnmode=2` so `F1`–`
 
 ## Required & Recommended Software
 
-The configurations in this repository depend on the following applications, categorized by domain. You can install each group individually using the provided `pacman` commands.
-
-### 1. Sway (Wayland Desktop)
+### 1. Laptop — Sway (Manjaro / Arch)
 
 ```bash
-sudo pacman -Syu sway waybar rofi swaybg swaylock swayidle swaynag wl-clipboard cliphist grim slurp brightnessctl playerctl pavucontrol xdg-desktop-portal-wlr xfce4-settings
+sudo pacman -Syu \
+  sway waybar rofi swaybg swaylock swayidle swaynag wl-clipboard cliphist grim slurp brightnessctl playerctl pavucontrol xdg-desktop-portal-wlr xfce4-settings \
+  neovim ripgrep fd fzf clang cmake make gcc neocmakelsp \
+  kitty lazygit yazi timewarrior zathura zathura-pdf-mupdf starship \
+  ttf-jetbrains-mono-nerd
+
+# AUR
 pamac install swaysome
 ```
 
@@ -34,104 +53,59 @@ pamac install swaysome
 | `waybar` | Highly customizable GTK top status bar for Sway. |
 | `rofi` | Application launcher, favorites menu, and power menu (`$mod+d`). |
 | `swaybg` | Wallpaper rendering daemon on Wayland. |
-| `swaylock` | Screen locking utility. |
-| `swayidle` | Idle management daemon for inactivity lock and display power-off. |
-| `swaynag` | Shows interactive warning and confirmation prompts (e.g., exit session). |
-| `wl-clipboard` | Wayland clipboard command-line utilities (`wl-copy`, `wl-paste`). |
-| `cliphist` | Wayland clipboard history manager used with `wl-paste`. |
-| `grim` | Screen grabber utility for taking screenshots (`Print` key). |
-| `slurp` | Interactive region selection utility companion for `grim`. |
-| `brightnessctl` | Laptop display brightness controller for hardware keys. |
-| `playerctl` | Media controller for hardware media keys (play/pause/next). |
-| `pavucontrol` | GUI volume mixer invoked by right-clicking Waybar volume. |
-| `xdg-desktop-portal-wlr` | Desktop portal backend for Wayland screen sharing and OBS/WebRTC. |
+| `swaylock` / `swayidle` / `swaynag` | Screen locking, idle management, and confirmation dialogs. |
+| `wl-clipboard` / `cliphist` | Wayland clipboard utilities and history manager. |
+| `grim` / `slurp` | Wayland screenshot capture (`Print` key) and region selection. |
+| `brightnessctl` / `playerctl` / `pavucontrol` | Laptop brightness, media keys, and volume mixer. |
+| `xdg-desktop-portal-wlr` | Desktop portal backend for Wayland screen sharing. |
 | `xfce4-settings` | XFCE settings daemon (`xfsettingsd`) managing GTK themes, fonts, icons, and cursors. |
+| `zathura` / `zathura-pdf-mupdf` | Minimalist, keyboard-driven PDF/document viewer. |
 
 ---
 
-### 2. i3 (X11 Desktop)
+### 2. Server — Minimal i3 + C++ Dev Tools (Manjaro / Arch)
 
 ```bash
-sudo pacman -Syu i3-wm polybar rofi feh i3lock xss-lock dex network-manager-applet pulseaudio xorg-xrandr bluez-utils xfce4-settings
-```
-
-| Application / Package | Purpose |
-| :--- | :--- |
-| `i3-wm` | Tiling window manager for X11 sessions. |
-| `polybar` | Fast, lightweight modular status bar for X11. |
-| `rofi` | Application launcher and window switcher for X11 (`$mod+d`). |
-| `feh` | Fast image viewer used to set X11 desktop wallpaper. |
-| `i3lock` | Screen locker for X11 sessions. |
-| `xss-lock` | Listens to logind sleep/suspend events to invoke the lock screen. |
-| `dex` | Launches XDG autostart `.desktop` files in i3. |
-| `network-manager-applet` | NetworkManager system tray applet (`nm-applet`) for Wi-Fi management. |
-| `pulseaudio` | Sound server providing `pactl` for volume control. |
-| `xorg-xrandr` | Multi-monitor detection used by the Polybar launcher. |
-| `bluez-utils` | Provides `bluetoothctl` used for Bluetooth status in status bars. |
-| `xfce4-settings` | XFCE settings daemon (`xfsettingsd`) managing GTK themes, fonts, icons, and cursors. |
-
----
-
-### 3. Neovim (Editor)
-
-```bash
-sudo pacman -Syu neovim ripgrep fd fzf clang cmake make gcc
-```
-
-| Application / Package | Purpose |
-| :--- | :--- |
-| `neovim` | Extensible modal text editor (`nvim`). |
-| `ripgrep` (`rg`) | Fast recursive text search engine used by `fzf-lua` live grep. |
-| `fd` | Fast directory traversing tool used by `fzf-lua` file searches. |
-| `fzf` | General-purpose command-line fuzzy finder. |
-| `clang` | C/C++ compiler toolchain providing `clangd` (LSP) and `clang-format`. |
-| `cmake` | Build system generator providing `ctest` integration. |
-| `make` / `gcc` | Build tools needed to compile Treesitter parsers and LuaSnip regex extensions. |
-
----
-
-### 4. Terminal & Document Tools
-
-```bash
-sudo pacman -Syu kitty lazygit yazi timewarrior zathura zathura-pdf-mupdf starship
-```
-
-| Application / Package | Purpose |
-| :--- | :--- |
-| `kitty` | Fast, GPU-accelerated terminal emulator. |
-| `starship` | Fast, customizable cross-shell prompt configured with Tokyo Night Powerline theme. |
-| `lazygit` | Terminal UI for Git version control (`<leader>gg` in Neovim). |
-| `yazi` | High-performance asynchronous terminal file manager. |
-| `timewarrior` (`timew`) | Command-line time tracking tool integrated into Polybar and Waybar. |
-| `zathura` | Minimalist, keyboard-driven document and PDF viewer. |
-| `zathura-pdf-mupdf` | Fast MuPDF rendering engine backend for Zathura. |
-
----
-
-### 5. System & Appearance
-
-```bash
-sudo pacman -Syu ttf-jetbrains-mono-nerd
-```
-
-| Application / Package | Purpose |
-| :--- | :--- |
-| `ttf-jetbrains-mono-nerd` | Primary font providing programming ligatures and UI icons across all tools. |
-
----
-
-### Full System Bootstrap
-
-To install all packages for both Sway and i3 environments at once:
-```bash
-# Official Repositories
 sudo pacman -Syu \
-  sway waybar rofi swaybg swaylock swayidle swaynag wl-clipboard cliphist grim slurp brightnessctl playerctl pavucontrol xdg-desktop-portal-wlr \
-  i3-wm polybar feh i3lock xss-lock dex network-manager-applet pulseaudio xorg-xrandr bluez-utils \
-  neovim ripgrep fd fzf clang cmake make gcc \
-  kitty lazygit yazi timewarrior zathura zathura-pdf-mupdf starship \
-  ttf-jetbrains-mono-nerd xfce4-settings
-
-# AUR Packages
-pamac install swaysome
+  i3-wm rofi feh \
+  neovim ripgrep fd fzf clang cmake make gcc neocmakelsp \
+  kitty lazygit yazi timewarrior starship \
+  ttf-jetbrains-mono-nerd
 ```
+
+> If you only connect to the server over SSH, `i3-wm`, `rofi`, and `feh` are optional; Neovim automatically uses OSC 52 for clipboard over SSH.
+
+---
+
+### 3. Phone — Termux + Termux:X11 + Minimal i3
+
+```bash
+pkg update && pkg upgrade
+pkg install x11-repo
+
+pkg install \
+  termux-x11-nightly i3 rofi feh \
+  neovim ripgrep fd fzf clang cmake make \
+  kitty lazygit yazi timewarrior starship
+```
+
+> Install `JetBrainsMono Nerd Font` into `~/.local/share/fonts` (and run `fc-cache -fv`) for icons and ligatures in `i3`, `kitty`, and `nvim`.
+> Optional: `neocmakelsp` can be installed via `cargo install neocmakelsp` — Neovim enables it automatically when present in `$PATH`.
+
+---
+
+### 4. Shared Core Tools (All Environments)
+
+| Application / Package | Purpose |
+| :--- | :--- |
+| `neovim` | Modal editor configured for C/C++ (uses local system `clangd` and optional `neocmakelsp`, no Mason). |
+| `ripgrep` (`rg`) / `fd` / `fzf` | Fast search and file finding backends for `fzf-lua`. |
+| `clang` | C/C++ compiler toolchain providing `clangd` (LSP) and `clang-format`. |
+| `cmake` / `make` / `gcc` | Build tools (`ctest` integration, Treesitter parsers, LuaSnip regex build). |
+| `neocmakelsp` *(optional)* | CMake LSP server (`CMakeLists.txt` completion & diagnostics); auto-enabled when in `$PATH`. |
+| `kitty` | GPU-accelerated terminal emulator with Tokyo Night theme. |
+| `starship` | Cross-shell prompt with Tokyo Night Powerline theme. |
+| `lazygit` | Terminal UI for Git (`<leader>gg` in Neovim). |
+| `yazi` | Asynchronous terminal file manager. |
+| `timewarrior` (`timew`) | Command-line time tracking tool. |
+| `i3-wm` / `rofi` / `feh` | Lightweight tiling WM (built-in Tokyo Night `i3bar` with workspaces + date), launcher, and wallpaper setter for server & Termux. |
