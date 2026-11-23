@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TARGET_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
+BIN_DIR="$HOME/.local/bin"
 
-mkdir -p "$TARGET_DIR"
+mkdir -p "$TARGET_DIR" "$BIN_DIR"
 
 APPS=(
-    sway
-    waybar
+    i3
     rofi
-    zathura
-    xfce4
     nvim
     kitty
     yazi
@@ -49,4 +47,21 @@ done
 
 link_config "$DOTFILES_DIR/starship/starship.toml" "$TARGET_DIR/starship.toml" "starship.toml"
 
-echo "Done linking laptop (Sway) dotfiles!"
+# Link Termux utility & launcher scripts into ~/.local/bin (without .sh suffix)
+for script in "$DOTFILES_DIR"/scripts/termux/*.sh; do
+    [ -f "$script" ] || continue
+    name="$(basename "$script" .sh)"
+    link_config "$script" "$BIN_DIR/$name" "script:$name"
+done
+
+case ":$PATH:" in
+    *":$BIN_DIR:"*) ;;
+    *)
+        echo ""
+        echo "Note: $BIN_DIR is not in your PATH."
+        echo "Add the following line to your ~/.bashrc:"
+        echo "  export PATH=\"\$HOME/.local/bin:\$PATH\""
+        ;;
+esac
+
+echo "Done setting up Termux (+ Termux:X11 + i3) dotfiles and scripts!"

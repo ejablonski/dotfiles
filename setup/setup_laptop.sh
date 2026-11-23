@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TARGET_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 mkdir -p "$TARGET_DIR"
 
 APPS=(
-    i3
+    sway
+    waybar
     rofi
+    zathura
+    xfce4
     nvim
     kitty
     yazi
@@ -46,4 +49,4 @@ done
 
 link_config "$DOTFILES_DIR/starship/starship.toml" "$TARGET_DIR/starship.toml" "starship.toml"
 
-echo "Done linking Termux (+ Termux:X11 + i3) dotfiles!"
+echo "Done linking laptop (Sway) dotfiles!"
